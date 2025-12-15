@@ -5,7 +5,7 @@ mod auth;
 mod websocket;
 
 use actix_cors::Cors;
-use actix_web::{web, App, HttpServer, middleware};
+use actix_web::{web, App, HttpServer, middleware, HttpResponse};
 use sqlx::SqlitePool;
 use std::sync::Arc;
 use tokio::sync::{RwLock, mpsc};
@@ -15,6 +15,10 @@ pub struct AppState {
     pub db: SqlitePool,
     pub jwt_secret: String,
     pub ws_connections: Arc<RwLock<HashMap<String, Vec<mpsc::UnboundedSender<String>>>>>,
+}
+
+async fn healthz() -> HttpResponse {
+    HttpResponse::Ok().finish()
 }
 
 #[actix_web::main]
@@ -30,19 +34,21 @@ async fn main() -> std::io::Result<()> {
         ws_connections: Arc::new(RwLock::new(HashMap::new())),
     });
 
-    println!("Server running at http://localhost:8080");
+    let bind_addr = std::env::var("BIND_ADDR").unwrap_or_else(|_| "0.0.0.0:8080".to_string());
+
+    println!("Server running at http://{bind_addr}");
     
     HttpServer::new(move || {
         let cors = Cors::default()
             .allow_any_origin()
             .allow_any_method()
-            .allow_any_header()
-            .supports_credentials();
+            .allow_any_header();
 
         App::new()
             .app_data(app_state.clone())
             .wrap(cors)
             .wrap(middleware::Logger::default())
+            .route("/healthz", web::get().to(healthz))
             // Auth routes
             .route("/api/auth/register", web::post().to(handlers::auth::register))
             .route("/api/auth/login", web::post().to(handlers::auth::login))
@@ -79,7 +85,7 @@ async fn main() -> std::io::Result<()> {
             .route("/api/chat/keys", web::post().to(handlers::chat::store_public_key))
             .route("/ws/chat", web::get().to(websocket::chat_ws))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&bind_addr)?
     .run()
     .await
 }

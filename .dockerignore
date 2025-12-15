@@ -1,0 +1,4 @@
+.git
+backend/target
+backend/.git
+**/node_modules
