@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Space - Connect & Share</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Auth Pages -->
+    <div id="auth-container" class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="logo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                        <line x1="9" y1="9" x2="9.01" y2="9"/>
+                        <line x1="15" y1="9" x2="15.01" y2="9"/>
+                    </svg>
+                </div>
+                <h1>Social Space</h1>
+                <p>Connect with friends and the world around you</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Sign In</button>
+                <p class="auth-switch">Don't have an account? <a href="#" id="show-register">Sign up</a></p>
+            </form>
+
+            <!-- Register Form -->
+            <form id="register-form" class="auth-form hidden">
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-username">Username</label>
+                    <input type="text" id="register-username" placeholder="Choose a username" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-displayname">Display Name</label>
+                    <input type="text" id="register-displayname" placeholder="Your display name" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" placeholder="Create a password (min 6 chars)" required minlength="6">
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+                <p class="auth-switch">Already have an account? <a href="#" id="show-login">Sign in</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="app-container" class="app-container hidden">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-left">
+                <div class="logo-small">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                        <line x1="9" y1="9" x2="9.01" y2="9"/>
+                        <line x1="15" y1="9" x2="15.01" y2="9"/>
+                    </svg>
+                </div>
+                <div class="search-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="M21 21l-4.35-4.35"/>
+                    </svg>
+                    <input type="text" id="search-input" placeholder="Search users...">
+                </div>
+            </div>
+            <div class="nav-center">
+                <button class="nav-btn active" data-page="feed" title="Home">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9,22 9,12 15,12 15,22"/>
+                    </svg>
+                </button>
+                <button class="nav-btn" data-page="friends" title="Friends">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                    <span class="badge hidden" id="friend-requests-badge">0</span>
+                </button>
+                <button class="nav-btn" data-page="groups" title="Groups">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-4-4h-4"/>
+                        <circle cx="17" cy="7" r="4"/>
+                    </svg>
+                </button>
+                <button class="nav-btn" data-page="chat" title="Messages">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    <span class="badge hidden" id="messages-badge">0</span>
+                </button>
+            </div>
+            <div class="nav-right">
+                <div class="user-menu" id="user-menu">
+                    <div class="avatar" id="nav-avatar">
+                        <span id="nav-avatar-initial">U</span>
+                    </div>
+                    <div class="dropdown hidden" id="user-dropdown">
+                        <div class="dropdown-header">
+                            <span id="dropdown-name">User Name</span>
+                            <span id="dropdown-email">user@email.com</span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <button id="logout-btn" class="dropdown-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                                <polyline points="16,17 21,12 16,7"/>
+                                <line x1="21" y1="12" x2="9" y2="12"/>
+                            </svg>
+                            Sign Out
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Search Results Dropdown -->
+        <div id="search-results" class="search-results hidden"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Feed Page -->
+            <div id="feed-page" class="page">
+                <div class="feed-container">
+                    <!-- Create Post -->
+                    <div class="create-post-card">
+                        <div class="create-post-header">
+                            <div class="avatar" id="create-post-avatar">
+                                <span id="create-avatar-initial">U</span>
+                            </div>
+                            <button class="create-post-input" id="open-post-modal">What's on your mind?</button>
+                        </div>
+                    </div>
+
+                    <!-- Posts Feed -->
+                    <div id="posts-feed" class="posts-feed">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Friends Page -->
+            <div id="friends-page" class="page hidden">
+                <div class="friends-container">
+                    <div class="friends-tabs">
+                        <button class="tab-btn active" data-tab="all-friends">All Friends</button>
+                        <button class="tab-btn" data-tab="friend-requests">
+                            Requests <span class="tab-badge" id="requests-count">0</span>
+                        </button>
+                        <button class="tab-btn" data-tab="find-friends">Find Friends</button>
+                    </div>
+
+                    <div id="all-friends-tab" class="tab-content">
+                        <div id="friends-list" class="users-grid"></div>
+                    </div>
+
+                    <div id="friend-requests-tab" class="tab-content hidden">
+                        <div id="friend-requests-list" class="users-grid"></div>
+                    </div>
+
+                    <div id="find-friends-tab" class="tab-content hidden">
+                        <div class="search-users-box">
+                            <input type="text" id="find-friends-search" placeholder="Search for people...">
+                        </div>
+                        <div id="find-friends-list" class="users-grid"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Groups Page -->
+            <div id="groups-page" class="page hidden">
+                <div class="groups-container">
+                    <div class="groups-header">
+                        <h2>Your Groups</h2>
+                        <button class="btn btn-primary" id="create-group-btn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                            Create Group
+                        </button>
+                    </div>
+
+                    <div id="groups-list" class="groups-grid"></div>
+                </div>
+
+                <!-- Group Detail View -->
+                <div id="group-detail" class="group-detail hidden">
+                    <div class="group-detail-header">
+                        <button class="back-btn" id="back-to-groups">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="19" y1="12" x2="5" y2="12"/>
+                                <polyline points="12,19 5,12 12,5"/>
+                            </svg>
+                            Back
+                        </button>
+                        <div class="group-info">
+                            <h2 id="group-detail-name"></h2>
+                            <p id="group-detail-description"></p>
+                            <span id="group-detail-members"></span>
+                        </div>
+                    </div>
+
+                    <!-- Group Create Post -->
+                    <div class="create-post-card">
+                        <div class="create-post-header">
+                            <div class="avatar">
+                                <span id="group-avatar-initial">U</span>
+                            </div>
+                            <button class="create-post-input" id="open-group-post-modal">Post something to the group...</button>
+                        </div>
+                    </div>
+
+                    <div id="group-posts" class="posts-feed"></div>
+                </div>
+            </div>
+
+            <!-- Chat Page -->
+            <div id="chat-page" class="page hidden">
+                <div class="chat-container">
+                    <div class="chat-sidebar">
+                        <div class="chat-sidebar-header">
+                            <h3>Messages</h3>
+                        </div>
+                        <div id="conversations-list" class="conversations-list"></div>
+                    </div>
+                    <div class="chat-main">
+                        <div id="chat-placeholder" class="chat-placeholder">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            </svg>
+                            <p>Select a conversation to start messaging</p>
+                        </div>
+                        <div id="chat-window" class="chat-window hidden">
+                            <div class="chat-header">
+                                <div class="chat-user-info">
+                                    <div class="avatar">
+                                        <span id="chat-avatar-initial">U</span>
+                                    </div>
+                                    <span id="chat-user-name"></span>
+                                </div>
+                                <div class="chat-encryption-badge">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                                    </svg>
+                                    End-to-end encrypted
+                                </div>
+                            </div>
+                            <div id="messages-container" class="messages-container"></div>
+                            <div id="typing-indicator" class="typing-indicator hidden">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <div class="chat-input-container">
+                                <input type="text" id="message-input" placeholder="Type a message...">
+                                <button id="send-message-btn" class="btn btn-primary">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="22" y1="2" x2="11" y2="13"/>
+                                        <polygon points="22,2 15,22 11,13 2,9"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Create Post Modal -->
+    <div id="post-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Post</h3>
+                <button class="close-modal" id="close-post-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <textarea id="post-content" placeholder="What's on your mind?"></textarea>
+                <div class="post-options">
+                    <label>Visibility:</label>
+                    <select id="post-visibility">
+                        <option value="friends_only">Friends Only</option>
+                        <option value="public">Public</option>
+                        <option value="private">Only Me</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="submit-post">Post</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Group Post Modal -->
+    <div id="group-post-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Post to Group</h3>
+                <button class="close-modal" id="close-group-post-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <textarea id="group-post-content" placeholder="Share something with the group..."></textarea>
+                <div class="post-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="group-post-anonymous">
+                        Post anonymously
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="submit-group-post">Post</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Group Modal -->
+    <div id="create-group-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Group</h3>
+                <button class="close-modal" id="close-create-group-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="group-name">Group Name</label>
+                    <input type="text" id="group-name" placeholder="Enter group name">
+                </div>
+                <div class="form-group">
+                    <label for="group-description">Description</label>
+                    <textarea id="group-description" placeholder="What is this group about?"></textarea>
+                </div>
+                <div class="post-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="group-private">
+                        Make group private
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="submit-create-group">Create Group</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comment Modal -->
+    <div id="comment-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Comments</h3>
+                <button class="close-modal" id="close-comment-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="comments-list" class="comments-list"></div>
+                <div class="add-comment">
+                    <input type="text" id="comment-input" placeholder="Write a comment...">
+                    <label class="checkbox-label small">
+                        <input type="checkbox" id="comment-anonymous">
+                        Anonymous
+                    </label>
+                    <button class="btn btn-primary btn-small" id="submit-comment">Post</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="js/crypto.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
